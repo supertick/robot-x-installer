@@ -1,14 +1,14 @@
 name: Node.js Package
 
-# on:
-#   release:
-#     types: [created]
-
-
 on:
-    push:
-      branches:
-        - master  # Only trigger on commits pushed to the main branch
+  release:
+    types: [created]
+
+
+# on:
+#     push:
+#       branches:
+#         - master  # Only trigger on commits pushed to the main branch
   
 
 jobs:
