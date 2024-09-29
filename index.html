@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NPM Package Installer</title>
+</head>
+<body>
+  <h1>Install NPM Packages</h1>
+  
+  <form id="package-form">
+    <label for="package-name">Enter package name:</label>
+    <input type="text" id="package-name" required>
+    <button type="submit">Install Package</button>
+  </form>
+
+  <pre id="output"></pre>
+
+  <script>
+    const { ipcRenderer } = require('electron')
+
+    const form = document.getElementById('package-form')
+    const output = document.getElementById('output')
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault()
+      const packageName = document.getElementById('package-name').value
+
+      // Send package name to main process
+      ipcRenderer.send('install-package', packageName)
+    })
+
+    // Listen for the output from the main process
+    ipcRenderer.on('install-output', (event, data) => {
+      output.textContent += data + '\n'
+    })
+
+    ipcRenderer.on('install-error', (event, error) => {
+      output.textContent += 'Error: ' + error + '\n'
+    })
+  </script>
+</body>
+</html>
